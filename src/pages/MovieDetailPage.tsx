@@ -13,6 +13,7 @@ import {
   CardMedia,
   CardContent,
   Alert,
+  Grid,
 } from '@mui/material'
 import { HeartIcon, ClockIcon, CalendarIcon } from 'lucide-react'
 import { MovieContext } from '../context/MovieContext'
@@ -21,10 +22,9 @@ import {
   getMovieCredits,
   getMovieVideos,
 } from '../services/api'
+
 const MovieDetailPage: React.FC = () => {
-  const { id } = useParams<{
-    id: string
-  }>()
+  const { id } = useParams<{ id: string }>()
   const movieId = parseInt(id || '0')
   const { addToFavorites, removeFromFavorites, isFavorite } =
     useContext(MovieContext)
@@ -34,6 +34,7 @@ const MovieDetailPage: React.FC = () => {
   const [movie, setMovie] = useState<any>(null)
   const [credits, setCredits] = useState<any>(null)
   const [videos, setVideos] = useState<any[]>([])
+
   useEffect(() => {
     const fetchMovieData = async () => {
       setLoading(true)
@@ -58,6 +59,7 @@ const MovieDetailPage: React.FC = () => {
       fetchMovieData()
     }
   }, [movieId])
+
   const handleFavoriteClick = () => {
     if (favorite) {
       removeFromFavorites(movieId)
@@ -65,9 +67,10 @@ const MovieDetailPage: React.FC = () => {
       addToFavorites(movie)
     }
   }
+
   if (loading) {
     return (
-      <Container>
+      <Container maxWidth="lg">
         <Box
           sx={{
             display: 'flex',
@@ -80,9 +83,10 @@ const MovieDetailPage: React.FC = () => {
       </Container>
     )
   }
+
   if (error || !movie) {
     return (
-      <Container>
+      <Container maxWidth="lg">
         <Alert
           severity="error"
           sx={{
@@ -94,14 +98,32 @@ const MovieDetailPage: React.FC = () => {
       </Container>
     )
   }
+
   const releaseYear = movie.release_date
     ? new Date(movie.release_date).getFullYear()
     : 'N/A'
   const trailer = videos.length > 0 ? videos[0] : null
+
   return (
-    <Container>
-      <div className="movie-detail-container">
-        <Box className="movie-detail-poster">
+    <Container maxWidth="lg" sx={{ overflowX: 'hidden' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 4,
+          alignItems: { xs: 'center', md: 'flex-start' },
+        }}
+      >
+        {/* Movie Poster and Favorite Button */}
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <img
             src={
               movie.poster_path ||
@@ -109,7 +131,7 @@ const MovieDetailPage: React.FC = () => {
             }
             alt={movie.title}
             style={{
-              width: '300px',
+              width: '100%',
               borderRadius: '8px',
               boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
             }}
@@ -129,7 +151,9 @@ const MovieDetailPage: React.FC = () => {
             {favorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </Button>
         </Box>
-        <Box className="movie-detail-info">
+
+        {/* Movie Details */}
+        <Box sx={{ flex: 1 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             {movie.title} ({releaseYear})
           </Typography>
@@ -168,6 +192,7 @@ const MovieDetailPage: React.FC = () => {
               display: 'flex',
               gap: 3,
               mb: 3,
+              flexWrap: 'wrap',
             }}
           >
             {movie.release_date && (
@@ -221,6 +246,7 @@ const MovieDetailPage: React.FC = () => {
                   position: 'relative',
                   paddingTop: '56.25%',
                   mb: 3,
+                  width: '100%',
                 }}
               >
                 <iframe
@@ -251,7 +277,7 @@ const MovieDetailPage: React.FC = () => {
               <Typography variant="h6" gutterBottom>
                 Cast
               </Typography>
-              <div className="cast-list">
+              <Grid container spacing={2}>
                 {credits.cast.map((person: any) => (
                   <div key={person.id} className="cast-item">
                     <Card
@@ -287,12 +313,13 @@ const MovieDetailPage: React.FC = () => {
                     </Card>
                   </div>
                 ))}
-              </div>
+              </Grid>
             </>
           )}
         </Box>
-      </div>
+      </Box>
     </Container>
   )
 }
+
 export default MovieDetailPage
