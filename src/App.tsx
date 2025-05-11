@@ -9,6 +9,7 @@ import { ThemeProvider, createTheme, CssBaseline } from '@mui/material'
 import { ThemeContext } from './context/ThemeContext'
 import { MovieProvider } from './context/MovieContext'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import MovieDetailPage from './pages/MovieDetailPage'
@@ -103,6 +104,7 @@ export function App() {
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </div>
+            <Footer />
           </Router>
         </MovieProvider>
       </ThemeProvider>
