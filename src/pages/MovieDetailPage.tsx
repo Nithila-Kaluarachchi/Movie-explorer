@@ -279,7 +279,14 @@ const MovieDetailPage: React.FC = () => {
               </Typography>
               <Grid container spacing={2}>
                 {credits.cast.map((person: any) => (
-                  <div key={person.id} className="cast-item">
+                  <Box
+                    key={person.id}
+                    sx={{
+                      width: 'calc(50% - 16px)', // Two items per row on small screens
+                      maxWidth: '150px', // Limit the size of each card
+                      textAlign: 'center',
+                    }}
+                  >
                     <Card
                       sx={{
                         height: '100%',
@@ -311,7 +318,7 @@ const MovieDetailPage: React.FC = () => {
                         </Typography>
                       </CardContent>
                     </Card>
-                  </div>
+                  </Box>
                 ))}
               </Grid>
             </>
