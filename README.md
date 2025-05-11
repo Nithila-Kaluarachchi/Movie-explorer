@@ -4,7 +4,7 @@ Movie Explorer is a responsive React web application that allows users to search
 
 ## 🚀 Live Demo
 
-🔗 [Click here to view the deployed app](https://your-deployment-link.vercel.app)
+🔗 [Click here to view the deployed app](https://movie-explorer-flame.vercel.app/)
 
 ---
 
@@ -25,8 +25,8 @@ Movie Explorer is a responsive React web application that allows users to search
 
 Use the following credentials to log in:
 
-- **Username:** `demoUser`
-- **Password:** `demo123`
+- **Username:** `user`
+- **Password:** `password`
 
 ---
 
